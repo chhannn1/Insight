@@ -47,6 +47,7 @@ public final class TooltipBackgroundRenderer {
         float blackA = alpha;
 
         float bgR = ((BACKGROUND_COLOR >> 16) & 0xFF) / 255.0f;
+        float bgG = ((BACKGROUND_COLOR >> 8) & 0xFF) / 255.0f;
         float bgB = (BACKGROUND_COLOR & 0xFF) / 255.0f;
         float bgA = bgAlpha / 255.0f;
 
