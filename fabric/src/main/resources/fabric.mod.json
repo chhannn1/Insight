@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "id": "insight",
+  "version": "${version}",
+  "name": "Insight",
+  "description": "See the world with clarity. Smart 3D billboards show entity health, dropped items, crop growth, and bed timers - all intelligently positioned to stay out of your way.",
+  "authors": [
+    "chan1"
+  ],
+  "contact": {
+  },
+  "license": "CC0-1.0",
+  "icon": "assets/insight/icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "main": [
+      "com.chan1.fabric.InsightFabric"
+    ],
+    "client": [
+      "com.chan1.fabric.client.InsightFabricClient"
+    ],
+    "modmenu": [
+      "com.chan1.fabric.client.ModMenuIntegration"
+    ]
+  },
+  "mixins": [
+    "insight.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.18.4",
+    "minecraft": "~1.20.4",
+    "java": ">=17",
+    "architectury": ">=11.1.17",
+    "fabric-api": "*"
+  }
+}

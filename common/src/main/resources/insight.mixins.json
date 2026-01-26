@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "package": "com.chan1.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "minVersion": "0.8",
+  "client": [
+    "GameRendererMixin",
+    "LevelRendererMixin"
+  ],
+  "mixins": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

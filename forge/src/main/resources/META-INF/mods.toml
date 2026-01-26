@@ -1,0 +1,34 @@
+modLoader = "javafml"
+loaderVersion = "[49,)"
+license = "CC0-1.0"
+
+[[mods]]
+modId = "insight"
+version = "${version}"
+displayName = "Insight"
+logoFile = "assets/insight/icon.png"
+authors = "chan1"
+description = '''
+See the world with clarity, 3d tooltips show entity health, dropped items, crop growth, and bed timers
+'''
+
+[[dependencies.insight]]
+modId = "forge"
+mandatory = true
+versionRange = "[49,)"
+ordering = "NONE"
+side = "CLIENT"
+
+[[dependencies.insight]]
+modId = "minecraft"
+mandatory = true
+versionRange = "[1.20.4,)"
+ordering = "NONE"
+side = "CLIENT"
+
+[[dependencies.insight]]
+modId = "architectury"
+mandatory = true
+versionRange = "[11.1.17,)"
+ordering = "AFTER"
+side = "CLIENT"

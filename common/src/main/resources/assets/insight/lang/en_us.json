@@ -1,0 +1,34 @@
+{
+  "config.insight.title": "Insight Settings",
+
+  "config.insight.category.item_tooltips": "Item Tooltips",
+  "config.insight.category.target_hud": "Target HUD",
+  "config.insight.category.misc": "Misc",
+  "config.insight.category.appearance": "Appearance",
+
+  "config.insight.itemTooltips.enabled": "Enable Item Tooltips",
+  "config.insight.itemTooltips.enabled.tooltip": "Show 3D tooltips above dropped items in the world",
+
+  "config.insight.itemTooltips.detectionMode": "Detection Mode",
+  "config.insight.itemTooltips.detectionMode.tooltip": "AREA: Shows tooltips for all nearby items\nCROSSHAIR: Shows tooltip only for the item your looking at",
+
+  "config.insight.itemTooltips.maxTooltips": "Max Tooltips",
+  "config.insight.itemTooltips.maxTooltips.tooltip": "Maximum number of item tooltips to display at once",
+
+  "config.insight.targetHud.enabled": "Enable Target HUD",
+  "config.insight.targetHud.enabled.tooltip": "Show health bar and info above entities your looking at",
+
+  "config.insight.targetHud.smartPositioning": "Smart Positioning",
+  "config.insight.targetHud.smartPositioning.tooltip": "Dynamically positions the HUD for optimal visibility based on your view angle",
+
+  "config.insight.appearance.scale": "Display Scale",
+  "config.insight.appearance.scale.tooltip": "Size of the 3D displays",
+
+  "config.insight.appearance.animations": "Enable Animations",
+  "config.insight.appearance.animations.tooltip": "Smooth appear/disappear animations for displays",
+
+  "config.insight.misc.bedTimer": "Bed Timer",
+  "config.insight.misc.bedTimer.tooltip": "Shows time until night when looking at a bed",
+  "config.insight.misc.cropGrowth": "Crop Growth",
+  "config.insight.misc.cropGrowth.tooltip": "Shows growth progress when looking at crops"
+}
