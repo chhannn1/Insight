@@ -295,6 +295,9 @@ public final class DroppedItemBillboardRenderer {
         float iconScale = 14.0f;
         poseStack.scale(iconScale, -iconScale, 0.001f);
 
+       // forgor to do this
+        poseStack.last().normal().identity();
+
         RenderSystem.depthMask(false);
         RenderSystem.disableDepthTest();
 
@@ -336,6 +339,9 @@ public final class DroppedItemBillboardRenderer {
 
         float iconScale = 14.0f;
         poseStack.scale(iconScale, -iconScale, 0.001f);
+
+        // forgor part 2
+        poseStack.last().normal().identity();
 
         MultiBufferSource.BufferSource immediateSource = minecraft.renderBuffers().bufferSource();
 
