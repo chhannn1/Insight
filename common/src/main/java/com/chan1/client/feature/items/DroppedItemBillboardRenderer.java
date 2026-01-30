@@ -19,6 +19,7 @@ import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Matrix4f;
+import org.lwjgl.opengl.GL11;
 import org.joml.Quaternionf;
 
 import java.util.ArrayList;
@@ -204,7 +205,7 @@ public final class DroppedItemBillboardRenderer {
 
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
-        RenderSystem.disableDepthTest();
+        RenderSystem.depthFunc(com.mojang.blaze3d.platform.GlConst.GL_ALWAYS);
         RenderSystem.depthMask(false);
 
         // tooltip background
@@ -260,7 +261,7 @@ public final class DroppedItemBillboardRenderer {
 
 
         RenderSystem.depthMask(true);
-        RenderSystem.enableDepthTest();
+        RenderSystem.depthFunc(com.mojang.blaze3d.platform.GlConst.GL_LEQUAL);
         RenderSystem.disableBlend();
 
         poseStack.popPose();
@@ -356,6 +357,9 @@ public final class DroppedItemBillboardRenderer {
                 0
         );
 
+        RenderSystem.depthMask(true);
+        GL11.glClear(GL11.GL_DEPTH_BUFFER_BIT);
+        RenderSystem.depthMask(false);
         immediateSource.endBatch();
 
         poseStack.popPose();
