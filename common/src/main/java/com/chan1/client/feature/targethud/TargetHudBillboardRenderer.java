@@ -20,7 +20,10 @@ import net.minecraft.world.phys.Vec3;
 import org.joml.Matrix4f;
 import org.joml.Quaternionf;
 
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 
@@ -38,6 +41,8 @@ public final class TargetHudBillboardRenderer {
     private static final int HEALTH_COLOR_LOW = 0xFFFF5555;
 
     private static final AnimationHelper animationHelper = new AnimationHelper();
+    private static final Map<Integer, Float> displayedHealthPercent = new HashMap<>();
+    private static final float HEALTH_BAR_LERP_SPEED = 0.3f;
 
     private TargetHudBillboardRenderer() {
     }
@@ -71,6 +76,7 @@ public final class TargetHudBillboardRenderer {
         }
 
         animationHelper.cleanupStaleAnimations(currentEntityIds);
+        displayedHealthPercent.keySet().retainAll(currentEntityIds);
 
         if (target == null) {
             return;
@@ -127,6 +133,14 @@ public final class TargetHudBillboardRenderer {
         float health = entity.getHealth();
         float maxHealth = entity.getMaxHealth();
         float healthPercent = Math.min(1.0f, health / maxHealth);
+
+        int entityId = entity.getId();
+        float displayed = displayedHealthPercent.getOrDefault(entityId, healthPercent);
+        displayed = displayed + (healthPercent - displayed) * HEALTH_BAR_LERP_SPEED;
+        if (Math.abs(displayed - healthPercent) < 0.001f) {
+            displayed = healthPercent;
+        }
+        displayedHealthPercent.put(entityId, displayed);
 
         String healthText = String.format("%.1f / %.1f", health, maxHealth);
 
@@ -209,7 +223,7 @@ public final class TargetHudBillboardRenderer {
         float barRight = healthBarWidth / 2.0f;
         float barBottom = barTop + healthBarHeight;
 
-        renderHealthBar(matrix, barLeft, barTop, barRight, barBottom, healthPercent, alpha);
+        renderHealthBar(matrix, barLeft, barTop, barRight, barBottom, displayed, alpha);
 
         immediateSource = minecraft.renderBuffers().bufferSource();
         float healthTextX = -healthTextWidth / 2.0f;
@@ -334,6 +348,7 @@ public final class TargetHudBillboardRenderer {
 
     public static void clearAnimations() {
         animationHelper.clear();
+        displayedHealthPercent.clear();
         TargetHudPositioner.clear();
     }
 }
