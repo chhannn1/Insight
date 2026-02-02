@@ -15,6 +15,13 @@
   "config.insight.itemTooltips.maxTooltips": "Max Tooltips",
   "config.insight.itemTooltips.maxTooltips.tooltip": "Maximum number of item tooltips to display at once",
 
+  "config.insight.itemTooltips.filterCommon": "Filter Items",
+  "config.insight.itemTooltips.filterCommon.tooltip": "Hide tooltips for specific items, Defaults to common items like cobblestone, dirt, logs, etc",
+  "config.insight.itemTooltips.filteredItems": "Filtered Items",
+  "config.insight.itemTooltips.filteredItems.tooltip": "List of item IDs to hide (e.g minecraft:cobblestone)",
+  "config.insight.itemTooltips.filteredItems.add": "Add Item",
+  "config.insight.itemTooltips.filteredItems.remove": "Remove Item",
+
   "config.insight.targetHud.enabled": "Enable Target HUD",
   "config.insight.targetHud.enabled.tooltip": "Show health bar and info above entities your looking at",
 

@@ -3,8 +3,14 @@ package com.chan1.client.config;
 import me.shedaniel.clothconfig2.api.ConfigBuilder;
 import me.shedaniel.clothconfig2.api.ConfigCategory;
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
+import me.shedaniel.clothconfig2.api.Requirement;
+import me.shedaniel.clothconfig2.gui.entries.BooleanListEntry;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 public class InsightConfigScreen {
 
@@ -43,6 +49,49 @@ public class InsightConfigScreen {
                 .setDefaultValue(5)
                 .setTooltip(Component.translatable("config.insight.itemTooltips.maxTooltips.tooltip"))
                 .setSaveConsumer(InsightConfig::setMaxDisplayedTooltips)
+                .build());
+
+        BooleanListEntry filterToggle = entryBuilder.startBooleanToggle(
+                        Component.translatable("config.insight.itemTooltips.filterCommon"),
+                        InsightConfig.isFilterCommonItemsEnabled())
+                .setDefaultValue(false)
+                .setTooltip(Component.translatable("config.insight.itemTooltips.filterCommon.tooltip"))
+                .setSaveConsumer(InsightConfig::setFilterCommonItemsEnabled)
+                .build();
+        itemTooltips.addEntry(filterToggle);
+
+        itemTooltips.addEntry(entryBuilder.startStrList(
+                        Component.translatable("config.insight.itemTooltips.filteredItems"),
+                        new ArrayList<>(InsightConfig.getFilteredItemIds()))
+                .setExpanded(true)
+                .setInsertInFront(false)
+                .setAddButtonTooltip(Component.translatable("config.insight.itemTooltips.filteredItems.add"))
+                .setRemoveButtonTooltip(Component.translatable("config.insight.itemTooltips.filteredItems.remove"))
+                .setCellErrorSupplier(value -> {
+                    if (value == null || value.isBlank()) {
+                        return Optional.of(Component.literal("Item ID cannot be empty"));
+                    }
+                    if (!value.contains(":")) {
+                        return Optional.of(Component.literal("Use format: namespace:item (e.g. minecraft:cobblestone)"));
+                    }
+                    return Optional.empty();
+                })
+                .setDefaultValue(List.of(
+                        "minecraft:cobblestone", "minecraft:cobbled_deepslate", "minecraft:andesite",
+                        "minecraft:diorite", "minecraft:granite", "minecraft:tuff", "minecraft:netherrack",
+                        "minecraft:basalt", "minecraft:blackstone",
+                        "minecraft:dirt", "minecraft:coarse_dirt", "minecraft:gravel",
+                        "minecraft:sand", "minecraft:red_sand", "minecraft:clay_ball",
+                        "minecraft:oak_log", "minecraft:spruce_log", "minecraft:birch_log",
+                        "minecraft:jungle_log", "minecraft:acacia_log", "minecraft:dark_oak_log",
+                        "minecraft:mangrove_log", "minecraft:cherry_log",
+                        "minecraft:raw_copper", "minecraft:copper_ingot", "minecraft:copper_block",
+                        "minecraft:rotten_flesh", "minecraft:poisonous_potato", "minecraft:spider_eye",
+                        "minecraft:bone", "minecraft:arrow", "minecraft:string", "minecraft:gunpowder",
+                        "minecraft:wheat_seeds", "minecraft:stick"))
+                .setTooltip(Component.translatable("config.insight.itemTooltips.filteredItems.tooltip"))
+                .setSaveConsumer(InsightConfig::setFilteredItemIds)
+                .setDisplayRequirement(Requirement.isTrue(filterToggle))
                 .build());
 
         ConfigCategory targetHud = builder.getOrCreateCategory(

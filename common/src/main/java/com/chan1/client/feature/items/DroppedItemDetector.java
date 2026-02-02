@@ -35,6 +35,9 @@ public final class DroppedItemDetector {
         if (!item.isAlive()) {
             return false;
         }
-        return !item.getItem().isEmpty();
+        if (item.getItem().isEmpty()) {
+            return false;
+        }
+        return !InsightConfig.isItemFiltered(item.getItem().getItem());
     }
 }
