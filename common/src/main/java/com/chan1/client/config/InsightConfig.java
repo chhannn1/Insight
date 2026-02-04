@@ -25,6 +25,29 @@ public final class InsightConfig {
         CROSSHAIR
     }
 
+    public enum FilterCategory {
+        STONE("cobblestone", "cobbled_deepslate", "andesite", "diorite", "granite", "tuff", "netherrack", "basalt", "blackstone"),
+        DIRT_SAND("dirt", "coarse_dirt", "gravel", "sand", "red_sand", "clay_ball"),
+        LOGS("oak_log", "spruce_log", "birch_log", "jungle_log", "acacia_log", "dark_oak_log", "mangrove_log", "cherry_log"),
+        COPPER("raw_copper", "copper_ingot", "copper_block"),
+        MOB_DROPS("rotten_flesh", "poisonous_potato", "spider_eye", "bone", "arrow", "string", "gunpowder"),
+        SEEDS_MISC("wheat_seeds", "stick");
+
+        private final List<String> itemIds;
+
+        FilterCategory(String... items) {
+            List<String> ids = new ArrayList<>();
+            for (String item : items) {
+                ids.add("minecraft:" + item);
+            }
+            this.itemIds = List.copyOf(ids);
+        }
+
+        public List<String> getItemIds() {
+            return itemIds;
+        }
+    }
+
     private static ConfigData data = new ConfigData();
 
     public static class ConfigData {
@@ -44,73 +67,65 @@ public final class InsightConfig {
         public DetectionMode detectionMode = DetectionMode.CROSSHAIR;
         public int maxDisplayedTooltips = 5;
 
-        public boolean filterCommonItems = false;
-        public List<String> filteredItems = getDefaultFilteredItems();
-    }
-
-    private static List<String> getDefaultFilteredItems() {
-        List<String> items = new ArrayList<>();
-        items.add("minecraft:cobblestone");
-        items.add("minecraft:cobbled_deepslate");
-        items.add("minecraft:andesite");
-        items.add("minecraft:diorite");
-        items.add("minecraft:granite");
-        items.add("minecraft:tuff");
-        items.add("minecraft:netherrack");
-        items.add("minecraft:basalt");
-        items.add("minecraft:blackstone");
-        items.add("minecraft:dirt");
-        items.add("minecraft:coarse_dirt");
-        items.add("minecraft:gravel");
-        items.add("minecraft:sand");
-        items.add("minecraft:red_sand");
-        items.add("minecraft:clay_ball");
-        items.add("minecraft:oak_log");
-        items.add("minecraft:spruce_log");
-        items.add("minecraft:birch_log");
-        items.add("minecraft:jungle_log");
-        items.add("minecraft:acacia_log");
-        items.add("minecraft:dark_oak_log");
-        items.add("minecraft:mangrove_log");
-        items.add("minecraft:cherry_log");
-        items.add("minecraft:raw_copper");
-        items.add("minecraft:copper_ingot");
-        items.add("minecraft:copper_block");
-        items.add("minecraft:rotten_flesh");
-        items.add("minecraft:poisonous_potato");
-        items.add("minecraft:spider_eye");
-        items.add("minecraft:bone");
-        items.add("minecraft:arrow");
-        items.add("minecraft:string");
-        items.add("minecraft:gunpowder");
-        items.add("minecraft:wheat_seeds");
-        items.add("minecraft:stick");
-        return items;
+        public boolean filterItems = false;
+        public boolean filterStone = false;
+        public boolean filterDirtSand = false;
+        public boolean filterLogs = false;
+        public boolean filterCopper = false;
+        public boolean filterMobDrops = false;
+        public boolean filterSeedsMisc = false;
+        public List<String> customFilteredItems = new ArrayList<>();
     }
 
     private static Set<Item> resolvedFilteredItems = null;
 
-    public static boolean isFilterCommonItemsEnabled() {
-        return data.filterCommonItems;
+    public static boolean isFilterItemsEnabled() {
+        return data.filterItems;
     }
 
-    public static void setFilterCommonItemsEnabled(boolean enabled) {
-        data.filterCommonItems = enabled;
+    public static void setFilterItemsEnabled(boolean enabled) {
+        data.filterItems = enabled;
+        resolvedFilteredItems = null;
     }
 
-    public static List<String> getFilteredItemIds() {
-        return data.filteredItems;
-    }
+    public static boolean isFilterStone() { return data.filterStone; }
+    public static void setFilterStone(boolean v) { data.filterStone = v; resolvedFilteredItems = null; }
 
-    public static void setFilteredItemIds(List<String> items) {
-        data.filteredItems = items;
+    public static boolean isFilterDirtSand() { return data.filterDirtSand; }
+    public static void setFilterDirtSand(boolean v) { data.filterDirtSand = v; resolvedFilteredItems = null; }
+
+    public static boolean isFilterLogs() { return data.filterLogs; }
+    public static void setFilterLogs(boolean v) { data.filterLogs = v; resolvedFilteredItems = null; }
+
+    public static boolean isFilterCopper() { return data.filterCopper; }
+    public static void setFilterCopper(boolean v) { data.filterCopper = v; resolvedFilteredItems = null; }
+
+    public static boolean isFilterMobDrops() { return data.filterMobDrops; }
+    public static void setFilterMobDrops(boolean v) { data.filterMobDrops = v; resolvedFilteredItems = null; }
+
+    public static boolean isFilterSeedsMisc() { return data.filterSeedsMisc; }
+    public static void setFilterSeedsMisc(boolean v) { data.filterSeedsMisc = v; resolvedFilteredItems = null; }
+
+    public static List<String> getCustomFilteredItems() { return data.customFilteredItems; }
+    public static void setCustomFilteredItems(List<String> items) {
+        data.customFilteredItems = items;
         resolvedFilteredItems = null;
     }
 
     public static Set<Item> getResolvedFilteredItems() {
         if (resolvedFilteredItems == null) {
             resolvedFilteredItems = new HashSet<>();
-            for (String id : data.filteredItems) {
+            List<String> allIds = new ArrayList<>();
+
+            if (data.filterStone) allIds.addAll(FilterCategory.STONE.getItemIds());
+            if (data.filterDirtSand) allIds.addAll(FilterCategory.DIRT_SAND.getItemIds());
+            if (data.filterLogs) allIds.addAll(FilterCategory.LOGS.getItemIds());
+            if (data.filterCopper) allIds.addAll(FilterCategory.COPPER.getItemIds());
+            if (data.filterMobDrops) allIds.addAll(FilterCategory.MOB_DROPS.getItemIds());
+            if (data.filterSeedsMisc) allIds.addAll(FilterCategory.SEEDS_MISC.getItemIds());
+            allIds.addAll(data.customFilteredItems);
+
+            for (String id : allIds) {
                 Item item = BuiltInRegistries.ITEM.get(new ResourceLocation(id));
                 if (item != net.minecraft.world.item.Items.AIR) {
                     resolvedFilteredItems.add(item);
@@ -121,7 +136,7 @@ public final class InsightConfig {
     }
 
     public static boolean isItemFiltered(Item item) {
-        return data.filterCommonItems && getResolvedFilteredItems().contains(item);
+        return data.filterItems && getResolvedFilteredItems().contains(item);
     }
 
     public static boolean isItemTooltipsEnabled() {

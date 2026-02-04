@@ -14,6 +14,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
+
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.Vec3;
@@ -216,6 +217,7 @@ public final class TargetHudBillboardRenderer {
         );
 
         immediateSource.endBatch();
+
 
         //health bar
         float barLeft = -healthBarWidth / 2.0f;

@@ -5,6 +5,7 @@ import com.chan1.client.util.render.AnimationHelper;
 import com.chan1.client.util.render.TooltipBackgroundRenderer;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.platform.GlConst;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;

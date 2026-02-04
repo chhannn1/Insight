@@ -52,21 +52,77 @@ public class InsightConfigScreen {
                 .build());
 
         BooleanListEntry filterToggle = entryBuilder.startBooleanToggle(
-                        Component.translatable("config.insight.itemTooltips.filterCommon"),
-                        InsightConfig.isFilterCommonItemsEnabled())
+                        Component.translatable("config.insight.itemTooltips.filterItems"),
+                        InsightConfig.isFilterItemsEnabled())
                 .setDefaultValue(false)
-                .setTooltip(Component.translatable("config.insight.itemTooltips.filterCommon.tooltip"))
-                .setSaveConsumer(InsightConfig::setFilterCommonItemsEnabled)
+                .setTooltip(Component.translatable("config.insight.itemTooltips.filterItems.tooltip"))
+                .setSaveConsumer(InsightConfig::setFilterItemsEnabled)
                 .build();
         itemTooltips.addEntry(filterToggle);
 
+        Requirement filterEnabled = Requirement.isTrue(filterToggle);
+
+        itemTooltips.addEntry(entryBuilder.startBooleanToggle(
+                        Component.translatable("config.insight.filter.stone"),
+                        InsightConfig.isFilterStone())
+                .setDefaultValue(false)
+                .setTooltip(Component.translatable("config.insight.filter.stone.tooltip"))
+                .setSaveConsumer(InsightConfig::setFilterStone)
+                .setDisplayRequirement(filterEnabled)
+                .build());
+
+        itemTooltips.addEntry(entryBuilder.startBooleanToggle(
+                        Component.translatable("config.insight.filter.dirtSand"),
+                        InsightConfig.isFilterDirtSand())
+                .setDefaultValue(false)
+                .setTooltip(Component.translatable("config.insight.filter.dirtSand.tooltip"))
+                .setSaveConsumer(InsightConfig::setFilterDirtSand)
+                .setDisplayRequirement(filterEnabled)
+                .build());
+
+        itemTooltips.addEntry(entryBuilder.startBooleanToggle(
+                        Component.translatable("config.insight.filter.logs"),
+                        InsightConfig.isFilterLogs())
+                .setDefaultValue(false)
+                .setTooltip(Component.translatable("config.insight.filter.logs.tooltip"))
+                .setSaveConsumer(InsightConfig::setFilterLogs)
+                .setDisplayRequirement(filterEnabled)
+                .build());
+
+        itemTooltips.addEntry(entryBuilder.startBooleanToggle(
+                        Component.translatable("config.insight.filter.copper"),
+                        InsightConfig.isFilterCopper())
+                .setDefaultValue(false)
+                .setTooltip(Component.translatable("config.insight.filter.copper.tooltip"))
+                .setSaveConsumer(InsightConfig::setFilterCopper)
+                .setDisplayRequirement(filterEnabled)
+                .build());
+
+        itemTooltips.addEntry(entryBuilder.startBooleanToggle(
+                        Component.translatable("config.insight.filter.mobDrops"),
+                        InsightConfig.isFilterMobDrops())
+                .setDefaultValue(false)
+                .setTooltip(Component.translatable("config.insight.filter.mobDrops.tooltip"))
+                .setSaveConsumer(InsightConfig::setFilterMobDrops)
+                .setDisplayRequirement(filterEnabled)
+                .build());
+
+        itemTooltips.addEntry(entryBuilder.startBooleanToggle(
+                        Component.translatable("config.insight.filter.seedsMisc"),
+                        InsightConfig.isFilterSeedsMisc())
+                .setDefaultValue(false)
+                .setTooltip(Component.translatable("config.insight.filter.seedsMisc.tooltip"))
+                .setSaveConsumer(InsightConfig::setFilterSeedsMisc)
+                .setDisplayRequirement(filterEnabled)
+                .build());
+
         itemTooltips.addEntry(entryBuilder.startStrList(
-                        Component.translatable("config.insight.itemTooltips.filteredItems"),
-                        new ArrayList<>(InsightConfig.getFilteredItemIds()))
+                        Component.translatable("config.insight.filter.customItems"),
+                        new ArrayList<>(InsightConfig.getCustomFilteredItems()))
                 .setExpanded(true)
                 .setInsertInFront(false)
-                .setAddButtonTooltip(Component.translatable("config.insight.itemTooltips.filteredItems.add"))
-                .setRemoveButtonTooltip(Component.translatable("config.insight.itemTooltips.filteredItems.remove"))
+                .setAddButtonTooltip(Component.translatable("config.insight.filter.customItems.add"))
+                .setRemoveButtonTooltip(Component.translatable("config.insight.filter.customItems.remove"))
                 .setCellErrorSupplier(value -> {
                     if (value == null || value.isBlank()) {
                         return Optional.of(Component.literal("Item ID cannot be empty"));
@@ -76,22 +132,10 @@ public class InsightConfigScreen {
                     }
                     return Optional.empty();
                 })
-                .setDefaultValue(List.of(
-                        "minecraft:cobblestone", "minecraft:cobbled_deepslate", "minecraft:andesite",
-                        "minecraft:diorite", "minecraft:granite", "minecraft:tuff", "minecraft:netherrack",
-                        "minecraft:basalt", "minecraft:blackstone",
-                        "minecraft:dirt", "minecraft:coarse_dirt", "minecraft:gravel",
-                        "minecraft:sand", "minecraft:red_sand", "minecraft:clay_ball",
-                        "minecraft:oak_log", "minecraft:spruce_log", "minecraft:birch_log",
-                        "minecraft:jungle_log", "minecraft:acacia_log", "minecraft:dark_oak_log",
-                        "minecraft:mangrove_log", "minecraft:cherry_log",
-                        "minecraft:raw_copper", "minecraft:copper_ingot", "minecraft:copper_block",
-                        "minecraft:rotten_flesh", "minecraft:poisonous_potato", "minecraft:spider_eye",
-                        "minecraft:bone", "minecraft:arrow", "minecraft:string", "minecraft:gunpowder",
-                        "minecraft:wheat_seeds", "minecraft:stick"))
-                .setTooltip(Component.translatable("config.insight.itemTooltips.filteredItems.tooltip"))
-                .setSaveConsumer(InsightConfig::setFilteredItemIds)
-                .setDisplayRequirement(Requirement.isTrue(filterToggle))
+                .setDefaultValue(List.of())
+                .setTooltip(Component.translatable("config.insight.filter.customItems.tooltip"))
+                .setSaveConsumer(InsightConfig::setCustomFilteredItems)
+                .setDisplayRequirement(filterEnabled)
                 .build());
 
         ConfigCategory targetHud = builder.getOrCreateCategory(
